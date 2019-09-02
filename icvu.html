@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<head>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.9.0/p5.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.9.0/addons/p5.dom.min.js"></script>
+    <link href="style.css" rel="stylesheet" type="text/css">
+
+    <meta charset="utf-8">
+
+</head>
+<body>
+
+  <nav><a href="index.html">revista ute</a><a href="desempleo.html">desempleo</a><a class="active" href="icvu.html">ICVU</a><a href="psu.html">psu</a><a href="global-warming.html">Global Warming</a></nav>
+<script>
+var titulos=["numero", "comuna", "condiciones \n laborales", "ambiente \n de negocios"," condiciones \n socioculturales", "conectividad \n y movilidad", "salud y\n  medioambiente", "vivienda \n y entorno", "icvu 2019"];
+var rm=[0,0,67.44,38.92,37.7,74.69,57.15,40.29,53.98]
+var data,sel,opcion,h,w
+function preload(){
+data= loadTable("https://raw.githubusercontent.com/luissalazarfigueroa/p5-sgcII/master/icvu.csv","csv","header");
+}
+function setup() {
+  createCanvas(windowWidth, windowHeight);
+  background(250);
+  h = windowHeight/110;
+  w = windowWidth/9;
+  sel = createSelect();
+  n = data.getRowCount();
+  sel.position(10, 10);
+  for(x=0;x<n;x++){
+  sel.option(data.get(x,1),data.get(x,0));
+  }
+  sel.changed(seleccion);
+  textSize(14);
+  text("ICVU de",w,h*10);
+  fill(200,0,0);
+  text(data.get(0,1),w+52,h*10);
+  fill(0);
+  text("vs ICVU Región Metropolitana",w,h*10+16);
+  for (x=2;x<9;x++){
+  fill(0);
+  text(titulos[x],(x-1)*w-30,h*20)
+  text(rm[x],(x-1)*w-15,height-rm[x]*h);
+  stroke(0);
+  line((x-1)*w-15,height-100,(x-1)*w-15,height-rm[x]*h)
+  stroke(200,0,0);
+  fill(200,0,0);
+  line((x-1)*w+15,height-100,(x-1)*w+15,height-data.get(0,x)*h)
+  noStroke();
+    text(data.get(0,x),(x-1)*w+15,height-data.get(0,x)*h)
+  }
+
+}
+
+function seleccion() {
+  clear();
+  background(250);
+  fill(0);
+  opcion=sel.value()
+  textSize(14);
+  text("ICVU de",w,h*10);
+  fill(200,0,0);
+  text(data.get(opcion-1,1),w+52,h*10);
+  fill(0);
+  text("vs ICVU Región Metropolitana",w,h*10+16);
+
+  textSize(12);
+     for (x=2;x<9;x++){
+  text(titulos[x],(x-1)*w-30,h*20)
+  }
+    for (x=2;x<9;x++){
+  fill(0);
+  text(rm[x],(x-1)*w-15,height-rm[x]*h);
+  stroke(0);
+  line((x-1)*w-15,height-100,(x-1)*w-15,height-rm[x]*h)
+  fill(200,0,0)
+  stroke(200,0,0)
+  line((x-1)*w+15,height-100,(x-1)*w+15,height-data.get(opcion-1,x)*h)
+  noStroke();
+  text(data.get(opcion-1,x),(x-1)*w+15,height-data.get(opcion-1,x)*h);
+
+  }
+
+}</script>
+
+</body>

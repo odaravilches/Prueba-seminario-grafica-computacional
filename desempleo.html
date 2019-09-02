@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<head>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.9.0/p5.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.9.0/addons/p5.dom.min.js"></script>
+    <link href="style.css" rel="stylesheet" type="text/css">
+
+    <meta charset="utf-8">
+
+</head>
+<body>
+
+  <nav><a href="index.html">revista ute</a><a class="active" href="desempleo.html">desempleo</a><a href="icvu.html">ICVU</a><a href="psu.html">psu</a><a href="global-warming.html">Global Warming</a></nav>
+<script>
+var datah, datam, h, w, radio, opcion,col
+
+function preload() {
+  datah = loadTable("https://raw.githubusercontent.com/luissalazarfigueroa/p5-sgcII/master/desempleo-hombres.csv", "csv", "header");
+  datam = loadTable("https://raw.githubusercontent.com/luissalazarfigueroa/p5-sgcII/master/desempleo-mujeres.csv", "csv", "header");
+
+}
+
+function setup() {
+
+  createCanvas(windowWidth, windowHeight);
+  background(250);
+  h = windowHeight / 20;
+  w = windowWidth / 13;
+  radio = createRadio();
+  radio.position(10, 10);
+  radio.option('Abril-Junio',1).checked = true;
+  radio.option('Marzo Mayo',2);
+  radio.option('Febrero Abril',3);
+  radio.changed(seleccion);
+  noStroke();
+  for (var x = 0; x < 16; x++) {
+    fill(0);
+    text(datah.get(x, 0), w, (x + 2) * h);
+    fill(250);
+    rect(w * 2.5, 0, w/2, height);
+    fill(200);
+    rect(w * 3, (x + 2) * h - 15, w * 8, 20);
+    fill(200, 0, 0);
+    rect(w * 3, (x + 2) * h - 15, datah.get(x, 1) * 20, 10);
+    fill(150, 0, 0);
+    rect(w * 3, (x + 2) * h - 5, datam.get(x, 1) * 20, 10);
+  }
+  fill(150, 0, 0);
+  rect(w, h * 18 - 10, 20, 20);
+  text("Mujeres", w + 30, h * 18);
+  fill(200, 0, 0);
+  rect(w * 3, h * 18 - 10, 20, 20);
+  text("Hombres", w * 3 + 30, h * 18);
+}
+
+function seleccion() {
+  clear();
+  background(250);
+
+  fill(150, 0, 0);
+  rect(w, h * 18 - 10, 20, 20);
+  text("Mujeres", w + 30, h * 18);
+  fill(200, 0, 0);
+  rect(w * 3, h * 18 - 10, 20, 20);
+  text("Hombres", w * 3 + 30, h * 18);
+  opcion = radio.value();
+   if (opcion == 1){col=1}
+   else if (opcion == 2){col=2}
+   else if(opcion==3){col=3};
+    for (var x = 0; x < 16; x++) {
+    fill(0);
+    text(datah.get(x, 0), w, (x + 2) * h);
+    fill(250);
+    rect(w * 2.5, 0, w/2, height);
+     fill(200);
+    rect(w * 3, (x + 2) * h - 15, w * 8, 20);
+    fill(200, 0, 0);
+    rect(w * 3, (x + 2) * h - 15, datah.get(x,col) * 20, 10);
+    fill(150, 0, 0);
+    rect(w * 3, (x + 2) * h - 5, datam.get(x, col) * 20, 10);
+  }
+
+
+}
+</script>
+
+</body>

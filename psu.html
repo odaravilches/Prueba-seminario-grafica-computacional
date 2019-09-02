@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<head>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.9.0/p5.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.9.0/addons/p5.dom.min.js"></script>
+    <link href="style.css" rel="stylesheet" type="text/css">
+
+    <meta charset="utf-8">
+
+</head>
+<body>
+
+  <nav><a href="index.html">revista ute</a><a href="desempleo.html">desempleo</a><a href="icvu.html">ICVU</a><a  class="active" href="psu.html">psu</a><a href="global-warming.html">Global Warming</a></nav>
+<script>
+var puntajes= [350,400,450,500,550,600,650,700,750,800]
+var data, n,sel,opcion,tipo
+var municipal= 0; var particular = 0; var subvencionado= 0; otros=0;
+function preload () {
+data = loadTable("https://raw.githubusercontent.com/luissalazarfigueroa/p5-sgcII/master/psu-nem-2016.tsv","tsv","header");
+}
+function setup() {
+  createCanvas(windowWidth,windowHeight);
+  background(250);
+   sel = createSelect();
+  sel.position(10, 10);
+  sel.option('Municipales',1);
+  sel.option('Subvencionados',2);
+  sel.option('Privados',3);
+  sel.changed(seleccion);
+  noStroke();
+  	n = data.getRowCount();
+	for (var a = 0; a < n; a++) {
+		if (data.get(a, 2) == "Municipal"){ municipal++ }
+		else if (data.get(a, 2) == "Particular Pagado"){ particular++ }
+		else if (data.get(a, 2) == "Particular Subvencionado"){ subvencionado++ }
+		else { otros++ }
+	}
+  colorMode(RGB, 255, 255, 255, 1);
+  for (var x=0;x<n;x++){
+  if(data.get(x,3)>600){fill(0,200,0,0.3)}
+  else if (data.get(x,3)<500){fill(200,0,0,0.3)}
+  else{fill(150,150,150,0.3)};
+  if(data.get(x,2)=="Municipal"){
+  ellipse((data.get(x,4))*100,height-data.get(x,3)+200,10,10) }
+
+  }
+  fill(150);
+  for (var x=0;x<10;x++){
+  text(puntajes[x],50,height-puntajes[x]+200)}
+  for(var x = 0; x<8;x++){
+  fill(150);
+  text(x+1,(x+1)*100,height-100)
+  fill(200);
+  text(x+1.5,(x+1)*100+50,height-100)
+
+  }
+
+ }
+
+function seleccion() {
+  clear();
+  background(250);
+   fill(150);
+  for (var x=0;x<10;x++){
+  text(puntajes[x],50,height-puntajes[x]+200)}
+  for(var x = 0; x<8;x++){
+  fill(150);
+  text(x+1,(x+1)*100,height-100)
+  fill(200);
+  text(x+1.5,(x+1)*100+50,height-100);
+  }
+  opcion = sel.value();
+  if (opcion==1){tipo="Municipal"}
+  else if (opcion==3){tipo="Particular Pagado"}
+  else if (opcion==2){tipo="Particular Subvencionado"};
+   colorMode(RGB, 255, 255, 255, 1);
+  for (var x=0;x<n;x++){
+  if(data.get(x,3)>600){fill(0,200,0,0.3)}
+  else if (data.get(x,3)<500){fill(200,0,0,0.3)}
+  else{fill(150,150,150,0.3)};
+  if(data.get(x,2)==tipo){
+  ellipse((data.get(x,4))*100,height-data.get(x,3)+200,10,10) }
+    }
+
+}
+</script>
+
+</body>

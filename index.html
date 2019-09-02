@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<head>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.9.0/p5.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.9.0/addons/p5.dom.min.js"></script>
+    <link href="style.css" rel="stylesheet" type="text/css">
+
+    <meta charset="utf-8">
+
+</head>
+<body>
+
+  <nav><a href="index.html" class="active">revista ute</a><a href="desempleo.html">desempleo</a><a href="icvu.html">ICVU</a><a href="psu.html">psu</a><a href="global-warming.html">Global Warming</a></nav>
+<script>
+var entradas = ["Educativa", "Política/Ideológica", "Económica/Productiva", "Científica-Tecnológica", "Cultural", "Territorial/Cono Sur"];
+var indole = ["UTE", "Nacional", "Latinoamérica", "Internacional"];
+var tipos = ["Editorial", "Ensayo", "Documentos", "Notas Bibliográficas", "Crónica Universitaria"];
+var img, data, sel, opcion, factor, h;
+
+function preload() {
+  data = loadJSON("https://api.myjson.com/bins/nfnpr");
+}
+
+function setup() {
+  createCanvas(windowWidth, windowHeight);
+  background(250);
+  noStroke();
+  sel = createSelect();
+  sel.position(10, 10);
+  sel.option('Entradas');
+  sel.option('Índole');
+  sel.option('Tipos de Artículo');
+  sel.changed(cambio);
+  factor = windowWidth / 14;
+  h = windowHeight / 10;
+  for (var x = 0; x < 12; x++) {
+    img = createImg(data[x].img);
+    img.hide();
+    image(img, (x + 1) * factor, h * 7, (factor - 5), (factor - 5) * 1.5);
+  };
+  textSize(12);
+  for (var x = 0; x < 6; x++) {
+    text(entradas[x], factor, h * (x + 1) - 10)
+  };
+
+  for (var x = 0; x < 12; x++) {
+    stroke(230);
+    strokeWeight(1);
+    line(factor * (x + 1) - 1, height, factor * (x + 1) - 1, 0);
+    noStroke();
+    fill(40, 170, 110);
+     ;
+    for (var n = 0; n < (data[x].educativa); n++) {
+      rect((factor * (x + 1)) + (6 * (n)), h, 5, 15);
+    }
+    fill(0);
+    text(data[x].educativa, (factor * (x + 1)) + (6 * (n))+2, h+10);
+
+    fill(15, 160, 150);
+    for (var n = 0; n < (data[x].politica); n++) {
+      rect((factor * (x + 1)) + (6 * (n)), h * 2, 5, 15);
+    }
+    fill(0);
+    text(data[x].politica, (factor * (x + 1)) + (6 * (n))+2, h * 2+10);
+
+    fill(50, 160, 200);
+    for (var n = 0; n < (data[x].economica); n++) {
+      rect((factor * (x + 1)) + (6 * (n)), h * 3, 5, 15);
+    }
+    fill(0);
+    text(data[x].economica, (factor * (x + 1)) + (6 * (n))+2, h * 3+10);
+
+    fill(50, 100, 160);
+    for (var n = 0; n < (data[x].cientifica); n++) {
+      rect((factor * (x + 1)) + (6 * (n)), h * 4, 5, 15);
+    }
+    fill(0);
+    text(data[x].cientifica, (factor * (x + 1)) + (6 * (n))+2, h*4+10);
+
+
+    fill(30, 50, 120);
+    for (var n = 0; n < (data[x].cultural); n++) {
+      rect((factor * (x + 1)) + (6 * (n)), h * 5, 5, 15);
+    }
+    fill(0);
+    text(data[x].cultural, (factor * (x + 1)) + (6 * (n))+2, h*5+10);
+
+    fill(30, 30, 75);
+    for (var n = 0; n < (data[x].territorial); n++) {
+      rect((factor * (x + 1)) + (6 * (n)), h * 6, 5, 15);
+    }
+    fill(0);
+    text(data[x].territorial, (factor * (x + 1)) + (6 * (n))+2, h*6+10);
+
+  }
+}
+function draw(){
+for (var x = 0; x < 12; x++) {
+    img = createImg(data[x].img);
+    img.hide();
+    image(img, (x + 1) * factor, h * 7, (factor - 5), (factor - 5) * 1.5);
+  };
+}
+function cambio() {
+  clear();
+  background(250);
+  redraw();
+  for (var x = 0; x < 12; x++) {
+    stroke(230);
+    strokeWeight(1);
+    line(factor * (x + 1) - 1, windowHeight, factor * (x + 1) - 1, 0);
+    noStroke();
+  };
+  elegir = sel.value();
+
+
+  if (elegir == "Entradas") {
+    fill(0);
+    textSize(12);
+    for (var x = 0; x < 6; x++) {
+      text(entradas[x], factor, ((x + 1) * h) - 10)
+    };
+    for (var x = 0; x < 12; x++) {
+    fill(40, 170, 110);
+     ;
+    for (var n = 0; n < (data[x].educativa); n++) {
+      rect((factor * (x + 1)) + (6 * (n)), h, 5, 15);
+    }
+    fill(0);
+    text(data[x].educativa, (factor * (x + 1)) + (6 * (n))+2, h+10);
+
+    fill(15, 160, 150);
+    for (var n = 0; n < (data[x].politica); n++) {
+      rect((factor * (x + 1)) + (6 * (n)), h * 2, 5, 15);
+    }
+    fill(0);
+    text(data[x].politica, (factor * (x + 1)) + (6 * (n))+2, h * 2+10);
+
+    fill(50, 160, 200);
+    for (var n = 0; n < (data[x].economica); n++) {
+      rect((factor * (x + 1)) + (6 * (n)), h * 3, 5, 15);
+    }
+    fill(0);
+    text(data[x].economica, (factor * (x + 1)) + (6 * (n))+2, h * 3+10);
+
+    fill(50, 100, 160);
+    for (var n = 0; n < (data[x].cientifica); n++) {
+      rect((factor * (x + 1)) + (6 * (n)), h * 4, 5, 15);
+    }
+    fill(0);
+    text(data[x].cientifica, (factor * (x + 1)) + (6 * (n))+2, h*4+10);
+
+
+    fill(30, 50, 120);
+    for (var n = 0; n < (data[x].cultural); n++) {
+      rect((factor * (x + 1)) + (6 * (n)), h * 5, 5, 15);
+    }
+    fill(0);
+    text(data[x].cultural, (factor * (x + 1)) + (6 * (n))+2, h*5+10);
+
+    fill(30, 30, 75);
+    for (var n = 0; n < (data[x].territorial); n++) {
+      rect((factor * (x + 1)) + (6 * (n)), h * 6, 5, 15);
+    }
+    fill(0);
+    text(data[x].territorial, (factor * (x + 1)) + (6 * (n))+2, h*6+10);
+
+    }
+  }
+
+  else if (elegir == "Índole") {
+    fill(0);
+    textSize(12);
+    for (var x = 0; x < 4; x++) {
+      text(indole[x], factor, h * (x + 1) - 10)
+    };
+    for (var x = 0; x < 12; x++) {
+       ;
+      fill(175, 35, 50);
+      for (var n = 0; n < (data[x].ute); n++) {
+        rect((factor * (x + 1)) + (6 * (n)), h, 5, 15);
+      }
+      fill(0);
+        text(data[x].ute, (factor * (x + 1)) + (6 * (n))+2, h+10);
+
+      fill(220, 85, 50);
+      for (var n = 0; n < (data[x].nacional); n++) {
+        rect((factor * (x + 1)) + (6 * (n)), h * 2, 5, 15);
+      }
+      fill(0);
+      text(data[x].nacional, (factor * (x + 1)) + (6 * (n))+2, h*2+10);
+      fill(240, 170, 75);
+      for (var n = 0; n < (data[x].latinoamerica); n++) {
+        rect((factor * (x + 1)) + (6 * (n)), h * 3, 5, 15);
+      }
+      fill(0);
+      text(data[x].latinoamerica, (factor * (x + 1)) + (6 * (n))+2, h*3+10);
+      fill(250, 235, 65);
+      for (var n = 0; n < (data[x].internacional); n++) {
+        rect((factor * (x + 1)) + (6 * (n)), h * 4, 5, 15);
+      }
+      fill(0);
+      text(data[x].internacional, (factor * (x + 1)) + (6 * (n))+2, h*4+10);
+
+
+    }
+  } else if (elegir == "Tipos de Artículo") {
+    fill(0);
+    textSize(12);
+    for (var x = 0; x < 5; x++) {
+      text(tipos[x], factor, h * (x + 1) - 10)
+    };
+    for (var x = 0; x < 12; x++) {
+       ;
+      fill(200);
+      for (var n = 0; n < (data[x].editorial); n++) {
+        rect((factor * (x + 1)) + (6 * (n)), h, 5, 15);
+      }
+      fill(0);
+      text(data[x].editorial, (factor * (x + 1)) + (6 * (n))+2, h+10);
+
+      fill(150);
+      for (var n = 0; n < (data[x].ensayo); n++) {
+        rect((factor * (x + 1)) + (6 * (n)), h * 2, 5, 15);
+      }
+      fill(0);
+      text(data[x].ensayo, (factor * (x + 1)) + (6 * (n))+2,h*2+10);
+
+      fill(100);
+      for (var n = 0; n < (data[x].documentos); n++) {
+        rect((factor * (x + 1)) + (6 * (n)), h * 3, 5, 15);
+      }
+      fill(0);
+      text(data[x].documentos, (factor * (x + 1)) + (6 * (n))+2, h*3+10);
+
+      fill(80);
+      for (var n = 0; n < (data[x].notas); n++) {
+        rect((factor * (x + 1)) + (6 * (n)), h * 4, 5, 15);
+      }
+      fill(0);
+
+      text(data[x].notas, (factor * (x + 1)) + (6 * (n))+2, h*4+10);
+      fill(50);
+      for (var n = 0; n < (data[x].cronica); n++) {
+        rect((factor * (x + 1)) + (6 * (n)), h * 5, 5, 15);
+      }
+      fill(0);
+      text(data[x].cronica, (factor * (x + 1)) + (6 * (n))+2, h*5+10);
+
+    }
+  }
+
+}
+</script>
+
+</body>
